@@ -1,0 +1,29 @@
+import React, { useState } from 'react';
+import { ButtonCounter } from './components/ButtonCounter';
+
+export const App = () => {
+  const [resultVal, setResultVal] = useState([]);
+  // setInterval(() => {
+  //   getTrigger;
+  // }, 500);
+  const getTrigger = async (value) => {
+    const resultData = await fetch(
+      'https://api.github.com/search/users?q=' + value
+    );
+    const response = await resultData.json();
+    console.log(response.items[0].login);
+    setResultVal(response.items);
+  };
+
+  return (
+    <div className="p-2">
+      <h1>React TSX Starter</h1>
+      <p></p>
+      <div>containing:</div>
+      <input type="text" onChange={(e) => getTrigger(e.target.value)} />
+      {resultVal.map((val) => (
+        <p>{val.login}</p>
+      ))}
+    </div>
+  );
+};
